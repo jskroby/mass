@@ -88,7 +88,7 @@ def main():
         # Step 4: Click the Availability button on the Dashboard
         try:
             availability_button_xpath = '//*[@id="dashboardList"]/li[9]'
-            availability_button = WebDriverWait(driver, 3).until(
+            availability_button = WebDriverWait(driver, 6).until(
                 EC.element_to_be_clickable((By.XPATH, availability_button_xpath))
             )
             availability_button.click()
@@ -96,7 +96,7 @@ def main():
 
             # Step 5: Open availability dropdown and select "Available"
             availability_option_xpath = '//*[@id="availabilityOption_chosen"]/a'
-            availability_option_button = WebDriverWait(driver, 3).until(
+            availability_option_button = WebDriverWait(driver, 6).until(
                 EC.element_to_be_clickable((By.XPATH, availability_option_xpath))
             )
             availability_option_button.click()
