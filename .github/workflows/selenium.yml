@@ -1,9 +1,9 @@
-name: Selenium Script
+name: Selenium Script Debugging
 
 on:
   schedule:
-    - cron: '0 */3 * * *' # Run every 3 hours
-  workflow_dispatch: # Allow manual runs
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
 
 jobs:
   selenium:
@@ -32,3 +32,12 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: python main.py
+
+      - name: Upload debugging artifacts
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: debugging-artifacts
+          path: |
+            *.png
+            *.html
