@@ -17,18 +17,16 @@ def initialize_driver():
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--headless')  # Ensures Chrome runs in headless mode
-    chrome_options.add_argument('--remote-debugging-port=9222')  # For debugging
 
     try:
-        # Specify a stable, known-compatible version of Chromedriver
+        # Initialize ChromeDriver without specifying a version
         driver = webdriver.Chrome(
-            service=Service(ChromeDriverManager(version="114.0.5735.90").install()),
+            service=Service(ChromeDriverManager().install()),
             options=chrome_options
         )
-        logging.info("Driver initialized successfully.")
         return driver
     except Exception as e:
-        logging.error(f"Driver initialization failed: {e}")
+        print(f"Driver initialization failed: {e}")
         return None
 
 def main():
@@ -145,3 +143,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
