@@ -1,34 +1,39 @@
 name: Run Selenium Script
 
 on:
-  workflow_dispatch: # Allows manual triggering
   schedule:
     - cron: '0 */3 * * *' # Runs every 3 hours
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
   selenium:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: 3.9
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install selenium webdriver-manager
 
+      # Step 4: Set up Chrome
       - name: Set up Chrome
         uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: 'stable'
 
+      # Step 5: Run the Selenium script
       - name: Run Selenium script
         env:
-          RENTMASSEUR_USERNAME: ${{ secrets.RENTMASSEUR_USERNAME }}
-          RENTMASSEUR_PASSWORD: ${{ secrets.RENTMASSEUR_PASSWORD }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
         run: python main.py
