@@ -28,16 +28,5 @@ jobs:
           chrome-version: stable
 
       - name: Run Selenium script
-        env:
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
         run: python main.py
 
-      - name: Upload debugging artifacts
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: debugging-artifacts
-          path: |
-            *.png
-            *.html
