@@ -1,4 +1,3 @@
-import os 
 import time
 import logging
 from selenium import webdriver
@@ -53,16 +52,14 @@ def main():
 
         # Step 2: Perform Login
         try:
-            username = os.getenv("USERNAME")
-            password = os.getenv("PASSWORD")
             username_field = WebDriverWait(driver, 3).until(
                 EC.presence_of_element_located((By.ID, "username"))
             )
-            username_field.send_keys(username)
+            username_field.send_keys("karpathianwolf")
             logging.info("Entered username.")
 
             password_field = driver.find_element(By.ID, "password")
-            password_field.send_keys(password)
+            password_field.send_keys("Lola369!")
             logging.info("Entered password.")
 
             login_button_xpath = '//*[@class="pbutton blue registerSubmit"]'
@@ -71,24 +68,26 @@ def main():
             )
             login_button.click()
             logging.info("Clicked login button.")
-        except Exception as e:
-            logging.error(f"Login failed: {e}")
-            debug_save(driver, "login_failed")
+        except NoSuchElementException as e:
+            logging.error("Login elements not found: " + str(e))
+        except ElementClickInterceptedException as e:
+            logging.error("Login button click was intercepted: " + str(e))
+        except TimeoutException as e:
+            logging.error("Timed out while trying to locate login elements: " + str(e))
 
-        # Step 3: Verify login
+        # Step 3: Post-login verification
         try:
-            WebDriverWait(driver, 5).until(
-                EC.presence_of_element_located((By.XPATH, "//*[@id='dashboardList']"))
+            WebDriverWait(driver, 3).until(
+                EC.presence_of_element_located((By.XPATH, "//*[@id='some_element_after_login']"))
             )
             logging.info("Login successful.")
         except TimeoutException:
-            logging.error("Login may have failed. Verifying dashboard presence.")
-            debug_save(driver, "login_verification_failed")
+            logging.error("Login may have failed. Expected element not found post-login.")
 
         # Step 4: Click the Availability button on the Dashboard
         try:
             availability_button_xpath = '//*[@id="dashboardList"]/li[9]'
-            availability_button = WebDriverWait(driver, 6).until(
+            availability_button = WebDriverWait(driver, 3).until(
                 EC.element_to_be_clickable((By.XPATH, availability_button_xpath))
             )
             availability_button.click()
@@ -96,7 +95,7 @@ def main():
 
             # Step 5: Open availability dropdown and select "Available"
             availability_option_xpath = '//*[@id="availabilityOption_chosen"]/a'
-            availability_option_button = WebDriverWait(driver, 6).until(
+            availability_option_button = WebDriverWait(driver, 3).until(
                 EC.element_to_be_clickable((By.XPATH, availability_option_xpath))
             )
             availability_option_button.click()
