@@ -92,7 +92,7 @@ def main():
             )
             availability_button.click()
             logging.info("Clicked Availability button on the dashboard.")
-
+            time.sleep(3)
             # Step 5: Open availability dropdown and select "Available"
             availability_option_xpath = '//*[@id="availabilityOption_chosen"]/a'
             availability_option_button = WebDriverWait(driver, 3).until(
@@ -107,7 +107,7 @@ def main():
             )
             available_option.click()
             logging.info("Selected 'Available' option.")
-
+            time.sleep(3)
             # Step 6: Open time dropdown and select "6 Hours"
             availability_time_xpath = '//*[@id="availabilityTime_chosen"]'
             availability_time_button = WebDriverWait(driver, 3).until(
@@ -122,7 +122,7 @@ def main():
             )
             six_hours_option.click()
             logging.info("Selected '6 Hours' option.")
-
+            time.sleep(3)
             # Step 7: Click "Set Now"
             set_now_button_xpath = '//*[@id="confirm"]/div/div[3]/a[1]'
             set_now_button = WebDriverWait(driver, 3).until(
